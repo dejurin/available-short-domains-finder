@@ -1,6 +1,6 @@
 # 🌐 Available Short Domains Finder 🔍
 
-🚀 **Available Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two- and three-character domains, making it perfect for startups, branding, and creative projects! 🏗️
+🚀 **Available Short Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two- and three-character domains, making it perfect for startups, branding, and creative projects! 🏗️
 
 ## 📂 Files
 
