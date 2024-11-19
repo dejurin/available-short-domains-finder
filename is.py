@@ -2,7 +2,6 @@ import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import os
 from itertools import cycle
-import threading
 
 BASE_URL = "https://www.isnic.is/en/whois/search?query={domain}"
 
@@ -12,8 +11,6 @@ AVAILABLE_FILE = "available_domains.txt"
 PROXY_FILE = "proxies.txt"
 
 THREADS = 10
-
-thread_local = threading.local()
 
 def load_domains_to_check():
     if not os.path.exists(INPUT_FILE):
@@ -38,8 +35,7 @@ def save_available_domain(domain):
 
 def load_proxies():
     if not os.path.exists(PROXY_FILE):
-        print(f"[ERROR] Proxy file {PROXY_FILE} not found!")
-        exit(1)
+        return []
     proxies = []
     with open(PROXY_FILE, "r") as file:
         for line in file:
@@ -52,38 +48,36 @@ def load_proxies():
                     proxies.append(proxy)
                 else:
                     print(f"[ERROR] Invalid proxy format: {line}")
-    if not proxies:
-        print("[ERROR] No valid proxies found in the proxy file!")
-        exit(1)
     return proxies
 
 def get_proxy(proxy_cycle):
+    """Получение следующего прокси из списка."""
     try:
         return next(proxy_cycle)
     except StopIteration:
         raise RuntimeError("No proxies left to use.")
 
-def check_domain(domain, proxy_cycle):
-    proxy = get_proxy(proxy_cycle)
+def check_domain(domain, proxy=None):
+    """Проверка домена на сайте."""
     url = BASE_URL.format(domain=domain)
     try:
-        proxy_dict = {"http": proxy, "https": proxy}
+        proxy_dict = {"http": proxy, "https": proxy} if proxy else None
         response = requests.get(url, timeout=10, proxies=proxy_dict)
         if "Verify code" in response.text:
-            print(f"[CAPTCHA DETECTED with proxy {proxy}] Switching proxy...")
+            print(f"[CAPTCHA DETECTED] Proxy: {proxy or 'None'} Switching to proxy...")
             raise ValueError("CAPTCHA Detected")
         if "available" in response.text:
             print(f"[AVAILABLE] {domain}")
             save_available_domain(domain)
         return domain
     except ValueError:
-        print(f"[INFO] Switching proxy for domain {domain}...")
         raise
     except Exception as e:
-        print(f"[ERROR] {domain} with proxy {proxy}: {e}")
+        print(f"[ERROR] {domain} with proxy {proxy or 'None'}: {e}")
     return None
 
 def main():
+    # Загрузка данных
     all_domains = load_domains_to_check()
     checked_domains = load_checked_domains()
     domains_to_check = [d for d in all_domains if d not in checked_domains]
@@ -92,24 +86,34 @@ def main():
         print("[INFO] No new domains to check.")
         return
 
+    # Загрузка прокси
     proxies = load_proxies()
-    proxy_cycle = cycle(proxies)
+    proxy_cycle = cycle(proxies) if proxies else None
 
     print(f"[INFO] Checking {len(domains_to_check)} domains...")
 
     with ThreadPoolExecutor(max_workers=THREADS) as executor:
-        futures = {executor.submit(check_domain, domain, proxy_cycle): domain for domain in domains_to_check}
+        use_proxies = False
+        while domains_to_check:
+            futures = {executor.submit(check_domain, domain, get_proxy(proxy_cycle) if use_proxies else None): domain for domain in domains_to_check}
+            domains_to_check = []  # Очищаем, чтобы заполнить заново при капче
 
-        for future in as_completed(futures):
-            domain = futures[future]
-            try:
-                result = future.result()
-                if result:
-                    save_checked_domain(result)
-            except ValueError:
-                print(f"[WARNING] CAPTCHA detected for {domain}. Proxy switched.")
-            except Exception as e:
-                print(f"[ERROR] Failed to process {domain}: {e}")
+            for future in as_completed(futures):
+                domain = futures[future]
+                try:
+                    result = future.result()
+                    if result:
+                        save_checked_domain(result)
+                except ValueError:
+                    if proxy_cycle:
+                        print(f"[INFO] Switching to proxy mode for domain {domain}...")
+                        use_proxies = True
+                        domains_to_check.append(domain)  # Повторить домен с прокси
+                    else:
+                        print("[ERROR] CAPTCHA detected, but no proxies available. Exiting...")
+                        return
+                except Exception as e:
+                    print(f"[ERROR] Failed to process {domain}: {e}")
 
 if __name__ == "__main__":
     main()
