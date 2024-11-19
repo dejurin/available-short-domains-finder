@@ -1,11 +1,12 @@
 # 🌐 Available Short Domains Finder 🔍
 
-🚀 **Available Short Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two- and three-character domains, making it perfect for startups, branding, and creative projects! 🏗️
+🚀 **Available Short Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two-, three-, and four-character domains, making it perfect for startups, branding, and creative projects! 🏗️
 
 ## 📂 Files
 
 - `available-two-char-domains-dot-is.txt` — List of available two-character domains in the `.is` zone.  
 - `available-3-letter-domains-dot-is.txt` — List of available three-letter domains in the `.is` zone.  
+- `available-4-letter-domains-dot-is.txt` — List of available four-letter domains in the `.is` zone.  
 
 ## 💡 Features
 
