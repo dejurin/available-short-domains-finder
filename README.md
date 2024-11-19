@@ -8,7 +8,7 @@ Source: https://www.isnic.is/
 
 ## 📂 Files
 
-- `available-two-char-domains-dot-is.txt` — List of available two-character domains in the `.is` zone.  
+- `available-2-char-domains-dot-is.txt` — List of available two-character domains in the `.is` zone.  
 - `available-3-letter-domains-dot-is.txt` — List of available three-letter domains in the `.is` zone.  
 - `available-4-letter-domains-dot-is.txt` — List of available four-letter domains in the `.is` zone.  
 
