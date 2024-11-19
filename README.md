@@ -1,5 +1,7 @@
 # 🌐 Available Short Domains Finder 🔍
 
+📅 Date: **19.11.2024**
+
 🚀 **Available Short Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two-, three-, and four-character domains, making it perfect for startups, branding, and creative projects! 🏗️
 
 ## 📂 Files
