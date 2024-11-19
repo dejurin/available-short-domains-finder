@@ -51,14 +51,12 @@ def load_proxies():
     return proxies
 
 def get_proxy(proxy_cycle):
-    """Получение следующего прокси из списка."""
     try:
         return next(proxy_cycle)
     except StopIteration:
         raise RuntimeError("No proxies left to use.")
 
 def check_domain(domain, proxy=None):
-    """Проверка домена на сайте."""
     url = BASE_URL.format(domain=domain)
     try:
         proxy_dict = {"http": proxy, "https": proxy} if proxy else None
@@ -77,7 +75,6 @@ def check_domain(domain, proxy=None):
     return None
 
 def main():
-    # Загрузка данных
     all_domains = load_domains_to_check()
     checked_domains = load_checked_domains()
     domains_to_check = [d for d in all_domains if d not in checked_domains]
@@ -86,7 +83,6 @@ def main():
         print("[INFO] No new domains to check.")
         return
 
-    # Загрузка прокси
     proxies = load_proxies()
     proxy_cycle = cycle(proxies) if proxies else None
 
@@ -96,7 +92,7 @@ def main():
         use_proxies = False
         while domains_to_check:
             futures = {executor.submit(check_domain, domain, get_proxy(proxy_cycle) if use_proxies else None): domain for domain in domains_to_check}
-            domains_to_check = []  # Очищаем, чтобы заполнить заново при капче
+            domains_to_check = []
 
             for future in as_completed(futures):
                 domain = futures[future]
@@ -108,7 +104,7 @@ def main():
                     if proxy_cycle:
                         print(f"[INFO] Switching to proxy mode for domain {domain}...")
                         use_proxies = True
-                        domains_to_check.append(domain)  # Повторить домен с прокси
+                        domains_to_check.append(domain)
                     else:
                         print("[ERROR] CAPTCHA detected, but no proxies available. Exiting...")
                         return
