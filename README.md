@@ -4,7 +4,7 @@
 
 🚀 **Available Short Domains Finder** is a simple tool to help you quickly find available short domain names. It focuses on two-, three-, and four-character domains, making it perfect for startups, branding, and creative projects! 🏗️
 
-Source: https://www.isnic.is/
+Source: [https://www.isnic.is/](https://www.isnic.is/)
 
 ## 📂 Files
 
@@ -37,7 +37,7 @@ Your support helps improve and expand this tool. Thank you for your generosity! 
 ---
 
 ## 💸 Prices
-Domain registration and annual renewal is **€36.90** (Charges are effective since: October 17, 2024).
+**.IS** - Domain registration and annual renewal is **€36.90** (Charges are effective since: October 17, 2024).
 
 ➡️ Currency Converter: [CurrencyRate]([https://eur.currencyrate.today/usd](https://currencyrate.today/currency-converter))
 
