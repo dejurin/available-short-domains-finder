@@ -39,7 +39,7 @@ Your support helps improve and expand this tool. Thank you for your generosity! 
 ## 💸 Prices
 **.IS** - Domain registration and annual renewal is **€36.90** (Charges are effective since: October 17, 2024).
 
-➡️ Currency Converter: [CurrencyRate]([https://eur.currencyrate.today/usd](https://currencyrate.today/currency-converter))
+➡️ Currency Converter: [https://currencyrate.today/currency-converter](https://currencyrate.today/currency-converter) - 190+ world currencies.
 
 ---
 
