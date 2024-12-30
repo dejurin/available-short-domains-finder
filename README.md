@@ -36,4 +36,11 @@ Your support helps improve and expand this tool. Thank you for your generosity! 
 
 ---
 
+## 💸 Prices
+Domain registration and annual renewal is **€36.90** (Charges are effective since: October 17, 2024).
+
+➡️ Currency Converter: [CurrencyRate]([https://eur.currencyrate.today/usd](https://currencyrate.today/currency-converter))
+
+---
+
 ⭐ **If you like this project, don’t forget to star this repository!** Your support keeps me motivated to create more useful tools. ⭐
